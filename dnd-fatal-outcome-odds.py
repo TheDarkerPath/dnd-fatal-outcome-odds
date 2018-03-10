@@ -1,7 +1,7 @@
 import random
 import sys, signal
-
-# TEST CHANGES IN NEW BRANCH
+import matplotlib
+import matplotlib.pyplot as plt
 
 # Code to allow graceful termintation
 def signal_handler(signal, frame):
@@ -10,7 +10,7 @@ def signal_handler(signal, frame):
 signal.signal(signal.SIGINT, signal_handler)
 
 # define number of turns over which to run the simulation
-number_of_turns = 1000000
+number_of_turns = 10000
 
 #initialise fumble and crit counters
 d20_fumble_counter = 0
@@ -34,6 +34,10 @@ def rollD20():
 def rollD100():
     roll = random.randint(1,100)
     return roll
+
+# define variables to track and pyplot
+plot_turn_number_X = []
+plot_total_number_of_fatal_outcomes_Y = []
 
 # Now, start a loop to run many iterations
 loop_counter = 0
@@ -65,8 +69,16 @@ for loop_counter in range(0,number_of_turns):
         if D100result >= d100_fatal_crit_cutoff:
             d100_crit_fatal_outcome +=1 # increment the d20_fumble_fatal_outcome counter
             print('   FATAL d20 CRIT!-------------------------------')
+    # Append values for plotting
+    plot_turn_number_X.append(loop_counter)
+    plot_total_number_of_fatal_outcomes_Y.append(d100_fumble_fatal_outcome + d100_fatal_crit_cutoff)
 
 print('-------------------------------------')
 print('Results: In', number_of_turns, 'turns')
 print('-- % chance of fatal fumble is', 100 * d100_fumble_fatal_outcome / number_of_turns, '(abs number of fatal fumbles is', d100_fumble_fatal_outcome, ')')
 print('-- % chance of fatal crit is', 100 * d100_crit_fatal_outcome / number_of_turns, '(abs number of fatal crits is', d100_crit_fatal_outcome, ')')
+
+plt.plot(plot_turn_number_X,plot_total_number_of_fatal_outcomes_Y)
+plt.ylabel('Total fatal outcomes')
+plt.xlabel('No of turns taken')
+plt.show()
