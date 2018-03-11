@@ -1,7 +1,10 @@
 #   Author: Geoff Moore
-#   Monte Carlo Simulation of fatal outcomes on DnD dice rolls. My current game involves homebrew rules with some fatal or character retiring
-#   outcomes for fumbles and crits. This program simulates this scenario to study the probabilities of fatal outcomes and plots the occurence
-#   of fatal outcomes over time. Values for cutoffs for crits and fumbles on the d20 and fatal outcomes on the d100 can be varied.
+#   Monte Carlo Simulation of fatal outcomes on DnD dice rolls. My current game
+#   involves homebrew rules with some fatal or character retiring outcomes
+#   for fumbles and crits. This program simulates this scenario to study the
+#   probabilities of fatal outcomes and plots the occurence of fatal outcomes
+#   over time. Values for cutoffs for crits and fumbles on the d20 and fatal
+#   outcomes on the d100 can be varied.
 
 # Import modules
 import random
@@ -25,8 +28,8 @@ d20_fumble_cutoff = 1
 d20_crit_cutoff = 20
 
 #define cutoffs for fatal or character-retiring outcomes on d100 following crit or fumble on d20
-d100_fatal_fumble_cutoff = 96
-d100_fatal_crit_cutoff = 96
+d100_fatal_fumble_cutoff = 98
+d100_fatal_crit_cutoff = 98
 
 # define number of turns over which to run the simulation
 number_of_turns = 10000
