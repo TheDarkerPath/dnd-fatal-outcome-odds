@@ -5,6 +5,7 @@
 
 # Import modules
 import random
+import os
 import sys, signal
 import matplotlib
 import matplotlib.pyplot as plt
@@ -37,6 +38,11 @@ d20_fumble_counter = 0
 d20_crit_counter = 0
 d100_fumble_fatal_outcome = 0
 d100_crit_fatal_outcome = 0
+
+# Get OS-generated random number as seed
+random_data = os.urandom(4)
+seed = int.from_bytes(random_data, byteorder="big")
+random.seed(seed)
 
 # define functions to roll the dice
 def rollD20():
