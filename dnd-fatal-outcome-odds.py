@@ -1,7 +1,14 @@
-import random
-import sys, signal
+#   Author: Geoff Moore
+#   Monte Carlo Simulation of fatal outcomes on DnD dice rolls. My current game involves homebrew rules with some fatal or character retiring
+#   outcomes for fumbles and crits. This program simulates this scenario to study the probabilities of fatal outcomes and plots the occurence
+#   of fatal outcomes over time. Values for cutoffs for crits and fumbles on the d20 and fatal outcomes on the d100 can be varied.
 
-# TEST CHANGES IN NEW BRANCH
+# Import modules
+import random
+import os
+import sys, signal
+import matplotlib
+import matplotlib.pyplot as plt
 
 # Code to allow graceful termintation
 def signal_handler(signal, frame):
@@ -9,8 +16,22 @@ def signal_handler(signal, frame):
     sys.exit(0)
 signal.signal(signal.SIGINT, signal_handler)
 
+#################################################################################################
+# Change values below to play with cutoffs for crits and fumbles on the d20 and fatal outcomes on the d100
+#
+#################################################################################################
+# define cutoffs for crits and fumbles on the d20
+d20_fumble_cutoff = 1
+d20_crit_cutoff = 20
+
+#define cutoffs for fatal or character-retiring outcomes on d100 following crit or fumble on d20
+d100_fatal_fumble_cutoff = 96
+d100_fatal_crit_cutoff = 96
+
 # define number of turns over which to run the simulation
-number_of_turns = 1000000
+number_of_turns = 10000
+#################################################################################################
+#################################################################################################
 
 #initialise fumble and crit counters
 d20_fumble_counter = 0
@@ -18,13 +39,10 @@ d20_crit_counter = 0
 d100_fumble_fatal_outcome = 0
 d100_crit_fatal_outcome = 0
 
-# define cutoffs for crits and fumbles on the d20
-d20_fumble_cutoff = 1
-d20_crit_cutoff = 20
-
-#define cutoffs for fatal or character-retiring outcomes on d100 following crit or fumble on d20
-d100_fatal_fumble_cutoff = 98
-d100_fatal_crit_cutoff = 98
+# Get OS-generated random number as seed
+random_data = os.urandom(4)
+seed = int.from_bytes(random_data, byteorder="big")
+random.seed(seed)
 
 # define functions to roll the dice
 def rollD20():
@@ -35,7 +53,11 @@ def rollD100():
     roll = random.randint(1,100)
     return roll
 
-# Now, start a loop to run many iterations
+# define variables to track and pyplot
+plot_turn_number_X = []
+plot_total_number_of_fatal_outcomes_Y = []
+
+# Now, start the main loop to run many iterations of the simulation
 loop_counter = 0
 for loop_counter in range(0,number_of_turns):
     #roll the d20 and check the result
@@ -65,8 +87,21 @@ for loop_counter in range(0,number_of_turns):
         if D100result >= d100_fatal_crit_cutoff:
             d100_crit_fatal_outcome +=1 # increment the d20_fumble_fatal_outcome counter
             print('   FATAL d20 CRIT!-------------------------------')
+    # Append values for plotting
+    plot_turn_number_X.append(loop_counter)
+    plot_total_number_of_fatal_outcomes_Y.append(d100_fumble_fatal_outcome + d100_crit_fatal_outcome)
 
+# Calculate and print stats for whole run
+chance_fatal_fumble = d100_fumble_fatal_outcome / number_of_turns
+chance_fatal_crit = d100_crit_fatal_outcome / number_of_turns
 print('-------------------------------------')
 print('Results: In', number_of_turns, 'turns')
-print('-- % chance of fatal fumble is', 100 * d100_fumble_fatal_outcome / number_of_turns, '(abs number of fatal fumbles is', d100_fumble_fatal_outcome, ')')
-print('-- % chance of fatal crit is', 100 * d100_crit_fatal_outcome / number_of_turns, '(abs number of fatal crits is', d100_crit_fatal_outcome, ')')
+print('-- chance of fatal fumble per turn is roughly 1 / ', round (1 / chance_fatal_fumble, 0), '(abs number of fatal fumbles is', d100_fumble_fatal_outcome, ')')
+print('-- chance of fatal crit per turn is roughly 1 / ', round (1 / chance_fatal_crit, 0), '(abs number of fatal crits is', d100_crit_fatal_outcome, ')')
+print('-- TOTAL chance of fatal crit per turn is roughly 1 /', round (1 / (chance_fatal_fumble + chance_fatal_crit), 0), '(abs number of fatal crits is', d100_fumble_fatal_outcome + d100_crit_fatal_outcome, ')')
+
+# Plot total number of fatal outcomes versus turn number
+plt.plot(plot_turn_number_X,plot_total_number_of_fatal_outcomes_Y)
+plt.ylabel('Running total of fatal outcomes')
+plt.xlabel('No of turns taken')
+plt.show()
