@@ -1,6 +1,7 @@
 # dnd-fatal-outcome-odds
 
-Calculates odds and plots fatal outcomes for fumbles and crits in DnD homebrew
+Monte Carlo Simulation to plot fatal outcomes over time on fumble and crit
+homebrew rules in DnD
 
 Author: Geoff Moore
 
