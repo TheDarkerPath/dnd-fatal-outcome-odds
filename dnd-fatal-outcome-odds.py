@@ -89,8 +89,8 @@ for run_loop_counter in range(0,number_of_runs):
 
             # ... and enter the D100 check loop
             if D100result >= d100_fatal_fumble_cutoff:
-                d100_fumble_fatal_outcome +=1 # increment the d20_fumble_fatal_outcome counter
-    #            print('   FATAL d20 FUMBLE!-------------------------------')
+                d100_fumble_fatal_outcome +=1 # increment the d100_fumble_fatal_outcome counter
+    #            print('   FATAL d100 FUMBLE!-------------------------------')
 
         # If crit, enter d20 crit loop
         elif D20result >= d20_crit_cutoff:
@@ -101,8 +101,8 @@ for run_loop_counter in range(0,number_of_runs):
 
             # ... and enter the D100 check loop
             if D100result >= d100_fatal_crit_cutoff:
-                d100_crit_fatal_outcome +=1 # increment the d20_fumble_fatal_outcome counter
-    #            print('   FATAL d20 CRIT!-------------------------------')
+                d100_crit_fatal_outcome +=1 # increment the d100_crit_fatal_outcome counter
+    #            print('   FATAL d100 CRIT!-------------------------------')
         # Append values for plotting
         plot_turn_number_X.append(loop_counter)
         plot_total_number_of_fatal_outcomes_Y.append(d100_fumble_fatal_outcome + d100_crit_fatal_outcome)
