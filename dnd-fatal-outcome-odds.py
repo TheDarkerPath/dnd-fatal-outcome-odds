@@ -33,7 +33,7 @@ d100_fatal_fumble_cutoff = 98
 d100_fatal_crit_cutoff = 98
 
 # define number of turns over which to run the simulation
-number_of_turns = 1000
+number_of_turns = 10000
 #################################################################################################
 #################################################################################################
 
