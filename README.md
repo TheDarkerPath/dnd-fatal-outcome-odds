@@ -5,7 +5,7 @@ homebrew rules in DnD
 
 Author: Geoff Moore
 
-![fatal_outcomes_20runs_98cutoffs](https://user-images.githubusercontent.com/37242207/37288154-6bb5ec02-25fe-11e8-9a09-550cc03e377c.png)
+![fatal_outcomes_20runs_2000turns_98cutoffs](https://user-images.githubusercontent.com/37242207/37293305-cf374828-260a-11e8-979a-ce743902fb1d.png)
 
 Monte Carlo Simulation of fatal outcomes on DnD dice rolls. My current game
 involves homebrew rules with some fatal or character retiring outcomes
@@ -25,4 +25,3 @@ much earlier and more regularly than our intuition would suggest based
 solely on the mathematical predicted probabilities. This means that much
 care needs to be taken in tuning the fatal outcome cutoffs to arrive at a
 satisfactory balance of risk versus maintaining enjoyment for players.
-
