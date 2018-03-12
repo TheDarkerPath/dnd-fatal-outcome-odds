@@ -11,6 +11,7 @@
 import random
 import os
 import sys, signal
+import numpy as np
 import matplotlib
 import matplotlib.pyplot as plt
 
@@ -130,6 +131,10 @@ for run_loop_counter in range(0,number_of_runs):
 
 plt.ylabel('Running total of fatal outcomes')
 plt.xlabel('No of turns taken')
-plot_title = str(number_of_runs) + ' run(s) of ' + str(number_of_turns) + ' turns | fumble cutoff ' + str(d100_fatal_fumble_cutoff) + ' | crit cutoff ' + str(d100_fatal_crit_cutoff)
+plot_title = ('Monte Carlo Simulation of fatal crits and fumbles over time\n' + str(number_of_runs) + ' run(s) of ' +
+        str(number_of_turns) + ' turns | fumble cutoff ' + str(d100_fatal_fumble_cutoff) + ' (odds/turn 1/' +
+        str(round (1 / predicted_chance_fatal_fumble, 0)) + ')\n| crit cutoff ' + str(d100_fatal_crit_cutoff) +
+        ' (odds/turn 1/' + str(round (1 / predicted_chance_fatal_crit, 0)) + ') | total odds/turn 1/' +
+        str(round (1 / (predicted_chance_fatal_fumble + predicted_chance_fatal_crit))))
 plt.title(plot_title)
 plt.show()
