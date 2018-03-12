@@ -34,7 +34,7 @@ d100_fatal_fumble_cutoff = 98
 d100_fatal_crit_cutoff = 98
 
 # define number of turns over which to run the simulation
-number_of_turns = 10000
+number_of_turns = 2000
 
 #define number of runs
 number_of_runs = 20
@@ -68,7 +68,7 @@ for run_loop_counter in range(0,number_of_runs):
     plot_total_number_of_fatal_outcomes_Y = []
 
     # Get OS-generated random number as seed
-    random_data = os.urandom(4)
+    random_data = os.urandom(64)
     seed = int.from_bytes(random_data, byteorder="big")
     random.seed(seed)
 
@@ -119,9 +119,15 @@ for run_loop_counter in range(0,number_of_runs):
     print('\n-------------------------------------')
     print('Run number', run_loop_counter)
     print('  Results: In', number_of_turns, 'turns')
-    print('  -- chance of fatal fumble per turn from generated data is roughly 1 / ', round (1 / chance_fatal_fumble, 0), '(abs number of fatal fumbles is', d100_fumble_fatal_outcome, ')')
+    if chance_fatal_fumble > 0:
+        print('  -- chance of fatal fumble per turn from generated data is roughly 1 / ', round (1 / chance_fatal_fumble, 0), '(abs number of fatal fumbles is', d100_fumble_fatal_outcome, ')')
+    else:
+        print('  -- chance of fatal fumble per turn from generated data is 0, (abs number of fatal fumbles is 0)')
     print('  -----> prediced mathematical odds for this are roughly 1 / ', round (1 / predicted_chance_fatal_fumble, 0) )
-    print('  -- chance of fatal crit per turn generated data is roughly 1 / ', round (1 / chance_fatal_crit, 0), '(abs number of fatal crits is', d100_crit_fatal_outcome, ')')
+    if chance_fatal_crit > 0:
+        print('  -- chance of fatal crit per turn generated data is roughly 1 / ', round (1 / chance_fatal_crit, 0), '(abs number of fatal crits is', d100_crit_fatal_outcome, ')')
+    else:
+        print('  -- chance of fatal crit per turn from generated data is 0, (abs number of fatal crits is 0)')
     print('  -----> predicted mathematical odds for this are roughly 1 / ', round (1 / predicted_chance_fatal_crit, 0) )
     print('  -- TOTAL chance of fatal crit per turn generated data is roughly 1 /', round (1 / (chance_fatal_fumble + chance_fatal_crit), 0), '(abs number of fatal crits is', d100_fumble_fatal_outcome + d100_crit_fatal_outcome, ')')
     print('  -----> predicted mathematical odds for this are roughly 1 / ', round (1 / (predicted_chance_fatal_fumble + predicted_chance_fatal_crit), 0) )
