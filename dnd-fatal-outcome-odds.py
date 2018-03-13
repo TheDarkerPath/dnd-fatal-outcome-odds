@@ -76,7 +76,11 @@ for run_loop_counter in range(0,number_of_runs):
     # Now, start the main loop to run many iterations of the simulation
     loop_counter = 0
     for loop_counter in range(0,number_of_turns):
-        #roll the d20 and check the result
+
+        # Player roll section
+        # Simulates a player attacking a monster
+
+        # roll the d20 and check the result
         D20result = rollD20()
     #    print(loop_counter, ' ', D20result)
 
@@ -92,8 +96,13 @@ for run_loop_counter in range(0,number_of_runs):
                 d100_fumble_fatal_outcome +=1 # increment the d100_fumble_fatal_outcome counter
     #            print('   FATAL d100 FUMBLE!-------------------------------')
 
+        # DM roll section
+        # Simulates the DM rolling for a monster to attack a player
+
+        # roll the d20 and check the result
+        D20result = rollD20()
         # If crit, enter d20 crit loop
-        elif D20result >= d20_crit_cutoff:
+        if D20result >= d20_crit_cutoff:
             d20_crit_counter += 1 # increment the d20_crit_cutoff counter
             D100result = rollD100()
     #        print('   d20 Crit!')
@@ -103,6 +112,7 @@ for run_loop_counter in range(0,number_of_runs):
             if D100result >= d100_fatal_crit_cutoff:
                 d100_crit_fatal_outcome +=1 # increment the d100_crit_fatal_outcome counter
     #            print('   FATAL d100 CRIT!-------------------------------')
+
         # Append values for plotting
         plot_turn_number_X.append(loop_counter)
         plot_total_number_of_fatal_outcomes_Y.append(d100_fumble_fatal_outcome + d100_crit_fatal_outcome)
