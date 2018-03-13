@@ -44,7 +44,7 @@ becomes unresponsive)
 
 The interesting and counterintuitive aspect of the results from this simulation
 is that unlikely events (ie. fatal outcomes) start to creep into simulated dice
-rolls earlier and more regularly runs than our intuition might suggest
+rolls earlier and more regularly than our intuition might suggest
 based solely on the predicted probabilities. This means that care needs to be
 taken in tuning the fatal outcome cutoffs to arrive at a satisfactory balance of
 risk versus maintaining enjoyment for players.
