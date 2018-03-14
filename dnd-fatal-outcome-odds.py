@@ -12,6 +12,8 @@ import random
 import os
 import sys, signal
 import numpy as np
+import scipy
+import scipy.stats
 import matplotlib
 import matplotlib.pyplot as plt
 
@@ -51,6 +53,9 @@ number_of_players = 4
 # 1 = output each roll
 # 0 = no roll output
 output_each_roll = 0
+
+# calculate predicted poisson stats and compare with observed
+calculate_poisson_stats = 1
 ############################################################################################################
 # End of main values for editing                                                                           #
 #                                                                                                          #
@@ -72,6 +77,12 @@ predicted_chance_d20_fumble = (d20_fumble_cutoff / 20) * number_of_players
 predicted_chance_d20_crit = (21 - d20_crit_cutoff ) / 20
 predicted_chance_fatal_fumble = predicted_chance_d20_fumble * ( (101 - d100_fatal_fumble_cutoff ) / 100 )
 predicted_chance_fatal_crit =  predicted_chance_d20_crit * (101 - d100_fatal_crit_cutoff ) / 100
+predicted_total_chance_fatal_outcome = predicted_chance_fatal_fumble + predicted_chance_fatal_crit
+
+# initialise variable to count observed poisson stats
+# (records number of fatal outcomes in each run)
+poisson_run_number = []
+poisson_observed_fatal_outcomes_per_run = []
 
 ##########################################
 # Loop to execute number_of_runs runs of the simulation
@@ -89,6 +100,9 @@ for run_loop_counter in range(0,number_of_runs):
     # define variables to track and pyplot
     plot_round_number_X = []
     plot_total_number_of_fatal_outcomes_Y = []
+
+    # initialise poisson fatal outcomes counter
+    poisson_run_fatal_outcomes_counter = 0
 
     ###################################################################
     # Loop to execute number_of_rounds rounds
@@ -124,6 +138,7 @@ for run_loop_counter in range(0,number_of_runs):
                 # ... and enter the D100 check loop
                 if D100result >= d100_fatal_fumble_cutoff:
                     d100_fumble_fatal_outcome +=1 # increment the d100_fumble_fatal_outcome counter
+                    poisson_run_fatal_outcomes_counter +=1 # increment poisson run fatal outcomes counter
                     if output_each_roll:
                         print('-----------------------------------------FATAL d100 FUMBLE!------------------')
                         print('-----------------------------------------------------------------------------')
@@ -147,6 +162,7 @@ for run_loop_counter in range(0,number_of_runs):
             # ... and enter the D100 check loop
             if D100result >= d100_fatal_crit_cutoff:
                 d100_crit_fatal_outcome +=1 # increment the d100_crit_fatal_outcome counter
+                poisson_run_fatal_outcomes_counter +=1 # increment poisson run fatal outcomes counter
                 if output_each_roll:
                     print('---------------------------------------------FATAL d100 CRIT!-------------------')
                     print('--------------------------------------------------------------------------------')
@@ -157,6 +173,10 @@ for run_loop_counter in range(0,number_of_runs):
 
     ######################
     # End the rounds loop
+
+    # Append values for tracking poisson end run stats
+    poisson_run_number.append(run_loop_counter)
+    poisson_observed_fatal_outcomes_per_run.append(poisson_run_fatal_outcomes_counter)
 
     #####################################################
     # Calculate and print (per round) stats for whole run
@@ -215,7 +235,7 @@ for run_loop_counter in range(0,number_of_runs):
 
     # total fatal outcome stats per round, observed vs. predicted
     if chance_fatal_fumble + chance_fatal_crit > 0:
-        print('  -- TOTAL chance of fatal outcome per round from generated data is roughly 1 /', round (1 / (chance_fatal_fumble + chance_fatal_crit), 0), ' vs. 1 /', round (1 / (predicted_chance_fatal_fumble + predicted_chance_fatal_crit), 0) , ' predicted (abs number of fatal crits is', d100_fumble_fatal_outcome + d100_crit_fatal_outcome, ')\n')
+        print('  -- TOTAL chance of fatal outcome per round from generated data is roughly 1 /', round (1 / (chance_fatal_fumble + chance_fatal_crit), 0), ' vs. 1 /', round (1 / (predicted_total_chance_fatal_outcome), 0) , ' predicted (abs number of fatal crits is', d100_fumble_fatal_outcome + d100_crit_fatal_outcome, ')\n')
     else:
         print('  -- TOTAL chance of fatal outcome per round from generated data is 0 vs. 0 predicted (abs number of fatal crits is 0)\n')
 
@@ -227,7 +247,7 @@ for run_loop_counter in range(0,number_of_runs):
 ##############
 # End run loop
 
-# Finalise and draw plot with axis labels and title
+# Finalise and draw plot for fatal outcomes with axis labels and title
 plt.ylabel('Running total of fatal outcomes')
 plt.xlabel('No of rounds taken')
 # If predicted probabilities > 0 then express as 1/n
@@ -236,13 +256,27 @@ if ( (predicted_chance_fatal_fumble > 0) and (predicted_chance_fatal_crit > 0) )
         str(number_of_rounds) + ' rounds & ' + str(number_of_players) + ' player(s) | fatal fumble d100 >= ' + str(d100_fatal_fumble_cutoff) + ' (ideal odds/round 1/' +
         str(round (1 / predicted_chance_fatal_fumble, 0)) + ')\n| fatal crit d100 >= ' + str(d100_fatal_crit_cutoff) +
         ' (ideal odds/round 1/' + str(round (1 / predicted_chance_fatal_crit, 0)) + ') | total ideal fatal odds/round 1/' +
-        str(round (1 / (predicted_chance_fatal_fumble + predicted_chance_fatal_crit))))
+        str(round (1 / (predicted_total_chance_fatal_outcome))))
 # ... otherwise use decimal expression to avoid div by zero
 else:
         plot_title = ('Monte Carlo Simulation of fatal crits and fumbles over time\nVerticals represent fatal outcomes for characters from fumbles they make or crits against them\n' + str(number_of_runs) + ' run(s) of ' +
             str(number_of_rounds) + ' rounds & ' + str(number_of_players) + ' player(s) | fatal fumble d100 >= ' + str(d100_fatal_fumble_cutoff) + ' (ideal odds/round ' +
             str(round (predicted_chance_fatal_fumble, 4)) + ')\n| fatal crit d100 >= ' + str(d100_fatal_crit_cutoff) +
             ' (ideal odds/round ' + str(round (predicted_chance_fatal_crit, 4)) + ') | total ideal fatal odds/round ' +
-            str(round ((predicted_chance_fatal_fumble + predicted_chance_fatal_crit), 4)))
+            str(round ((predicted_total_chance_fatal_outcome), 4)))
 plt.title(plot_title)
+plt.show()
+
+######### Calculate poisson stats using a run as the measurement interval
+#######
+
+# Calculate expected number of fatal outcomes in a given run (event rate lambda)
+predicted_lambda_run = predicted_total_chance_fatal_outcome * number_of_rounds
+
+plot_poisson_X = np.arange(0, predicted_lambda_run * 2)
+predicted_poisson_probabilities_Y = scipy.stats.poisson.pmf(plot_poisson_X, predicted_lambda_run)
+plt.plot(plot_poisson_X, predicted_poisson_probabilities_Y, 'o-')
+plt.title('Poisson distribution predictions for fatal outcomes per run\nExpected number per run $\lambda$ =%i' % predicted_lambda_run)
+plt.xlabel('Number of fatal outcomes in given run')
+plt.ylabel('Probability of number of fatal outcomes in given run')
 plt.show()
