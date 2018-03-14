@@ -40,8 +40,8 @@ d20_crit_cutoff = 20
 d100_fatal_fumble_cutoff = 99
 d100_fatal_crit_cutoff = 98
 
-# define number of runs to execute (each run forms a distinct line in the plot)
-number_of_runs = 20
+# define number of runs to execute (each run forms a distinct line in the cumulative plot)
+number_of_runs = 2000
 
 # define number of rounds in each run of the simulation
 number_of_rounds = 2000
@@ -54,8 +54,11 @@ number_of_players = 4
 # 0 = no roll output
 output_each_roll = 0
 
-# calculate predicted poisson stats and compare with observed
-calculate_poisson_stats = 1
+# display run summary stats and calculate and plot cumulative fatal outcomes for each run
+plot_cumulative_results = 0
+
+# calculate and plot predicted poisson stats and compare with observed
+plot_poisson_stats = 1
 ############################################################################################################
 # End of main values for editing                                                                           #
 #                                                                                                          #
@@ -186,97 +189,116 @@ for run_loop_counter in range(0,number_of_runs):
     chance_fatal_fumble = d100_fumble_fatal_outcome / number_of_rounds
     chance_fatal_crit = d100_crit_fatal_outcome / number_of_rounds
 
-    print('\n\n\n-----------------------------------------------------------------------------------------------------')
-    print('--------------------------- Summary stats for run number', run_loop_counter + 1)
-    print('---------------------------', number_of_rounds, 'rounds with', number_of_players, 'players\n')
-    print('--------------------------- ')
+    if plot_cumulative_results:
+        print('\n\n\n-----------------------------------------------------------------------------------------------------')
+        print('--------------------------- Summary stats for run number', run_loop_counter + 1)
+        print('---------------------------', number_of_rounds, 'rounds with', number_of_players, 'players\n')
+        print('--------------------------- ')
 
-    # d20 fumble and crit stats per round, observed vs predicted
-    print('d20 fumble and crit stats per round, observed vs predicted')
-    print('----------------------------------------------------------\n')
+        # d20 fumble and crit stats per round, observed vs predicted
+        print('d20 fumble and crit stats per round, observed vs predicted')
+        print('----------------------------------------------------------\n')
 
-    # d20 fumble stats per round, observed vs predicted
-    if chance_d20_fumble > 0:
-        print('  -- chance of d20 fumble per round from generated data is roughly 1 /', round (1 / chance_d20_fumble, 0), ' vs. 1 /', round (1 / predicted_chance_d20_fumble, 0), ' predicted (abs number of d20 fumbles is', d20_fumble_counter, ')\n')
-    else:
-        print('  -- chance of d20 fumble per round from generated data is 0 vs. 1/', round (1 / predicted_chance_d20_fumble, 0), ' predicted (abs number of d20 fumbles is 0)\n')
-
-    # d20 crit stats per round, observed vs predicted
-    if chance_d20_crit > 0:
-        print('  -- chance of d20 crit per round from generated data is roughly 1 / ', round (1 / chance_d20_crit, 0), ' vs. 1 /', round (1 / predicted_chance_d20_crit, 0), ' predicted (abs number of d20 crits is', d20_crit_counter, ')\n\n')
-    else:
-        print('  -- chance of d20 crit per round from generated data is 0  vs. 1 /', round (1 / predicted_chance_d20_crit, 0) , ' predicted (abs number of d20 crits is 0)\n\n')
-
-    # fatal fumble and crit stats per round, observed vs predicted
-    print('fatal fumble and crit stats per round, observed vs predicted')
-    print('------------------------------------------------------------\n')
-
-    # fatal fumble stats per round, observed vs predicted
-
-    if chance_fatal_fumble > 0:
-        print('  -- chance of fatal fumble per round from generated data is roughly 1 / ', round (1 / chance_fatal_fumble, 0), ' vs. 1 /', round (1 / predicted_chance_fatal_fumble, 0) , ' predicted (abs number of fatal fumbles is', d100_fumble_fatal_outcome, ')\n')
-    else:
-        if predicted_chance_fatal_fumble > 0:
-            print('  -- chance of fatal fumble per round from generated data is 0 vs. 1 /', round (1 / predicted_chance_fatal_fumble, 0) , ' predicted (abs number of fatal fumbles is 0)\n')
+        # d20 fumble stats per round, observed vs predicted
+        if chance_d20_fumble > 0:
+            print('  -- chance of d20 fumble per round from generated data is roughly 1 /', round (1 / chance_d20_fumble, 0), ' vs. 1 /', round (1 / predicted_chance_d20_fumble, 0), ' predicted (abs number of d20 fumbles is', d20_fumble_counter, ')\n')
         else:
-            print('  -- chance of fatal fumble per round from generated data is 0 vs. 0 predicted (abs number of fatal fumbles is 0)\n')
+            print('  -- chance of d20 fumble per round from generated data is 0 vs. 1/', round (1 / predicted_chance_d20_fumble, 0), ' predicted (abs number of d20 fumbles is 0)\n')
 
-    # fatal crit stats per round, observed vs predicted
-    if chance_fatal_crit > 0:
-        print('  -- chance of fatal crit per round from generated data is roughly 1 / ', round (1 / chance_fatal_crit, 0), ' vs. 1 /', round (1 / predicted_chance_fatal_crit, 0) , ' predicted (abs number of fatal crits is', d100_crit_fatal_outcome, ')\n\n')
-    else:
-        if predicted_chance_fatal_crit > 0:
-            print('  -- chance of fatal crit per round from generated data is 0 vs. 1 /', round (1 / predicted_chance_fatal_crit, 0) , ' predicted  (abs number of fatal crits is 0)\n')
+        # d20 crit stats per round, observed vs predicted
+        if chance_d20_crit > 0:
+            print('  -- chance of d20 crit per round from generated data is roughly 1 / ', round (1 / chance_d20_crit, 0), ' vs. 1 /', round (1 / predicted_chance_d20_crit, 0), ' predicted (abs number of d20 crits is', d20_crit_counter, ')\n\n')
         else:
-            print('  -- chance of fatal crit per round from generated data is 0 vs. 0 predicted  (abs number of fatal crits is 0)\n')
+            print('  -- chance of d20 crit per round from generated data is 0  vs. 1 /', round (1 / predicted_chance_d20_crit, 0) , ' predicted (abs number of d20 crits is 0)\n\n')
 
-    print('total fatal fumble and crit stats per round, observed vs predicted')
-    print('------------------------------------------------------------------\n')
+        # fatal fumble and crit stats per round, observed vs predicted
+        print('fatal fumble and crit stats per round, observed vs predicted')
+        print('------------------------------------------------------------\n')
 
-    # total fatal outcome stats per round, observed vs. predicted
-    if chance_fatal_fumble + chance_fatal_crit > 0:
-        print('  -- TOTAL chance of fatal outcome per round from generated data is roughly 1 /', round (1 / (chance_fatal_fumble + chance_fatal_crit), 0), ' vs. 1 /', round (1 / (predicted_total_chance_fatal_outcome), 0) , ' predicted (abs number of fatal crits is', d100_fumble_fatal_outcome + d100_crit_fatal_outcome, ')\n')
-    else:
-        print('  -- TOTAL chance of fatal outcome per round from generated data is 0 vs. 0 predicted (abs number of fatal crits is 0)\n')
+        # fatal fumble stats per round, observed vs predicted
+
+        if chance_fatal_fumble > 0:
+            print('  -- chance of fatal fumble per round from generated data is roughly 1 / ', round (1 / chance_fatal_fumble, 0), ' vs. 1 /', round (1 / predicted_chance_fatal_fumble, 0) , ' predicted (abs number of fatal fumbles is', d100_fumble_fatal_outcome, ')\n')
+        else:
+            if predicted_chance_fatal_fumble > 0:
+                print('  -- chance of fatal fumble per round from generated data is 0 vs. 1 /', round (1 / predicted_chance_fatal_fumble, 0) , ' predicted (abs number of fatal fumbles is 0)\n')
+            else:
+                print('  -- chance of fatal fumble per round from generated data is 0 vs. 0 predicted (abs number of fatal fumbles is 0)\n')
+
+        # fatal crit stats per round, observed vs predicted
+        if chance_fatal_crit > 0:
+            print('  -- chance of fatal crit per round from generated data is roughly 1 / ', round (1 / chance_fatal_crit, 0), ' vs. 1 /', round (1 / predicted_chance_fatal_crit, 0) , ' predicted (abs number of fatal crits is', d100_crit_fatal_outcome, ')\n\n')
+        else:
+            if predicted_chance_fatal_crit > 0:
+                print('  -- chance of fatal crit per round from generated data is 0 vs. 1 /', round (1 / predicted_chance_fatal_crit, 0) , ' predicted  (abs number of fatal crits is 0)\n')
+            else:
+                print('  -- chance of fatal crit per round from generated data is 0 vs. 0 predicted  (abs number of fatal crits is 0)\n')
+
+        print('total fatal fumble and crit stats per round, observed vs predicted')
+        print('------------------------------------------------------------------\n')
+
+        # total fatal outcome stats per round, observed vs. predicted
+        if chance_fatal_fumble + chance_fatal_crit > 0:
+            print('  -- TOTAL chance of fatal outcome per round from generated data is roughly 1 /', round (1 / (chance_fatal_fumble + chance_fatal_crit), 0), ' vs. 1 /', round (1 / (predicted_total_chance_fatal_outcome), 0) , ' predicted (abs number of fatal crits is', d100_fumble_fatal_outcome + d100_crit_fatal_outcome, ')\n')
+        else:
+            print('  -- TOTAL chance of fatal outcome per round from generated data is 0 vs. 0 predicted (abs number of fatal crits is 0)\n')
 
 
-    ########################################################
-    # Plot total number of fatal outcomes versus round number
-    plt.plot(plot_round_number_X,plot_total_number_of_fatal_outcomes_Y)
+        ########################################################
+        # Plot total number of fatal outcomes versus round number
+        plt.plot(plot_round_number_X,plot_total_number_of_fatal_outcomes_Y)
 
 ##############
 # End run loop
 
-# Finalise and draw plot for fatal outcomes with axis labels and title
-plt.ylabel('Running total of fatal outcomes')
-plt.xlabel('No of rounds taken')
-# If predicted probabilities > 0 then express as 1/n
-if ( (predicted_chance_fatal_fumble > 0) and (predicted_chance_fatal_crit > 0) ):
-    plot_title = ('Monte Carlo Simulation of fatal crits and fumbles over time\nVerticals represent fatal outcomes for characters from fumbles they make or crits against them\n' + str(number_of_runs) + ' run(s) of ' +
-        str(number_of_rounds) + ' rounds & ' + str(number_of_players) + ' player(s) | fatal fumble d100 >= ' + str(d100_fatal_fumble_cutoff) + ' (ideal odds/round 1/' +
-        str(round (1 / predicted_chance_fatal_fumble, 0)) + ')\n| fatal crit d100 >= ' + str(d100_fatal_crit_cutoff) +
-        ' (ideal odds/round 1/' + str(round (1 / predicted_chance_fatal_crit, 0)) + ') | total ideal fatal odds/round 1/' +
-        str(round (1 / (predicted_total_chance_fatal_outcome))))
-# ... otherwise use decimal expression to avoid div by zero
-else:
+if plot_cumulative_results:
+    # Finalise and draw plot for fatal outcomes with axis labels and title
+    plt.ylabel('Running total of fatal outcomes')
+    plt.xlabel('No of rounds taken')
+    # If predicted probabilities > 0 then express as 1/n
+    if ( (predicted_chance_fatal_fumble > 0) and (predicted_chance_fatal_crit > 0) ):
         plot_title = ('Monte Carlo Simulation of fatal crits and fumbles over time\nVerticals represent fatal outcomes for characters from fumbles they make or crits against them\n' + str(number_of_runs) + ' run(s) of ' +
-            str(number_of_rounds) + ' rounds & ' + str(number_of_players) + ' player(s) | fatal fumble d100 >= ' + str(d100_fatal_fumble_cutoff) + ' (ideal odds/round ' +
-            str(round (predicted_chance_fatal_fumble, 4)) + ')\n| fatal crit d100 >= ' + str(d100_fatal_crit_cutoff) +
-            ' (ideal odds/round ' + str(round (predicted_chance_fatal_crit, 4)) + ') | total ideal fatal odds/round ' +
-            str(round ((predicted_total_chance_fatal_outcome), 4)))
-plt.title(plot_title)
-plt.show()
+            str(number_of_rounds) + ' rounds & ' + str(number_of_players) + ' player(s) | fatal fumble d100 >= ' + str(d100_fatal_fumble_cutoff) + ' (ideal odds/round 1/' +
+            str(round (1 / predicted_chance_fatal_fumble, 0)) + ')\n| fatal crit d100 >= ' + str(d100_fatal_crit_cutoff) +
+            ' (ideal odds/round 1/' + str(round (1 / predicted_chance_fatal_crit, 0)) + ') | total ideal fatal odds/round 1/' +
+            str(round (1 / (predicted_total_chance_fatal_outcome))))
+    # ... otherwise use decimal expression to avoid div by zero
+    else:
+            plot_title = ('Monte Carlo Simulation of fatal crits and fumbles over time\nVerticals represent fatal outcomes for characters from fumbles they make or crits against them\n' + str(number_of_runs) + ' run(s) of ' +
+                str(number_of_rounds) + ' rounds & ' + str(number_of_players) + ' player(s) | fatal fumble d100 >= ' + str(d100_fatal_fumble_cutoff) + ' (ideal odds/round ' +
+                str(round (predicted_chance_fatal_fumble, 4)) + ')\n| fatal crit d100 >= ' + str(d100_fatal_crit_cutoff) +
+                ' (ideal odds/round ' + str(round (predicted_chance_fatal_crit, 4)) + ') | total ideal fatal odds/round ' +
+                str(round ((predicted_total_chance_fatal_outcome), 4)))
+    plt.title(plot_title)
+    plt.show()
 
-######### Calculate poisson stats using a run as the measurement interval
-#######
 
-# Calculate expected number of fatal outcomes in a given run (event rate lambda)
-predicted_lambda_run = predicted_total_chance_fatal_outcome * number_of_rounds
+if plot_poisson_stats:
+    ######### Calculate poisson stats using a run as the measurement interval
+    #######
 
-plot_poisson_X = np.arange(0, predicted_lambda_run * 2)
-predicted_poisson_probabilities_Y = scipy.stats.poisson.pmf(plot_poisson_X, predicted_lambda_run)
-plt.plot(plot_poisson_X, predicted_poisson_probabilities_Y, 'o-')
-plt.title('Poisson distribution predictions for fatal outcomes per run\nExpected number per run $\lambda$ =%i' % predicted_lambda_run)
-plt.xlabel('Number of fatal outcomes in given run')
-plt.ylabel('Probability of number of fatal outcomes in given run')
-plt.show()
+    # Calculate expected number of fatal outcomes in a given run (event rate lambda)
+    predicted_lambda_run = predicted_total_chance_fatal_outcome * number_of_rounds
+
+    # Calculate relative frequencies in observed fatal outcomes per run
+    observed_relative_frequencies_Y = scipy.stats.relfreq(poisson_observed_fatal_outcomes_per_run, numbins = int(round(predicted_lambda_run * 3)) )
+    #print(poisson_observed_fatal_outcomes_per_run)
+    #print(observed_relative_frequencies_Y.frequency)
+    #print(np.sum(observed_relative_frequencies_Y.frequency))
+
+    # Set X axis with the correct range from observed frequencies
+    plot_poisson_X = np.arange(0, int(round(predicted_lambda_run * 3)))
+    #print(plot_poisson_X)
+
+    # Calculate appropriate ideal poisson distribution
+    predicted_poisson_probabilities_Y = scipy.stats.poisson.pmf(plot_poisson_X, predicted_lambda_run)
+
+    predicted_plot_label, = plt.plot(plot_poisson_X, predicted_poisson_probabilities_Y, 'go--', linewidth=2, markersize=10, label='Predicted probability/run')
+    observed_plot_label, = plt.plot(plot_poisson_X, observed_relative_frequencies_Y.frequency, color='r', marker='x', linestyle='dashed',
+            linewidth=1, markersize=8, label='Observed probability/run')
+
+    plt.title('Poisson distribution observed vs predicted fatal outcomes per run\nObserved probability per run in red (only meaningful with many runs)\nPredicted probability per run in green $\lambda$ =%i' % predicted_lambda_run)
+    plt.xlabel('Number of fatal outcomes in given run')
+    plt.ylabel('Probability of number of fatal outcomes in given run')
+    plt.legend(handles=[predicted_plot_label, observed_plot_label])
+    plt.show()
