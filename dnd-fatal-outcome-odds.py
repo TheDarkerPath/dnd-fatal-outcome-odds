@@ -6,6 +6,8 @@
 #   probabilities of fatal outcomes from the generated data which can be used
 #   to check the model against actual probabilities. Values for cutoffs for
 #   crits and fumbles on the d20 and fatal outcomes on the d100 can be varied.
+#   Poisson distributions (ideal and observed) can optionally be calculated and
+#   plotted.
 
 # Import modules
 import random
