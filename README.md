@@ -1,7 +1,8 @@
 # dnd-fatal-outcome-odds
 
 Monte Carlo Simulation to plot fatal outcomes over time on fumble and crit
-homebrew rules in DnD
+homebrew rules in DnD. Poisson statistics can also be calculated and plotted
+showing theoretical predicted vs actual observed probabilities.
 
 Author: Geoff Moore
 
@@ -11,10 +12,19 @@ Monte Carlo Simulation of fatal outcomes on DnD dice rolls. My current game
 involves homebrew rules with some fatal or character retiring outcomes
 for fumbles and crits (we use the blanket term "fatal outcomes" in the simulation
 but we also mean very serious or character-retiring outcomes). This program
-simulates this scenario using a Monte Carlo approach and plots the cumulative
-occurrence of fatal outcomes over time. It also calculates probabilities of
-fatal outcomes from the generated data for each run which can be used to
-check the model against predicted ideal probabilities.
+simulates this scenario using a Monte Carlo approach and can optionally plot the
+cumulative occurrence of fatal outcomes over time for each run. It also calculates
+probabilities of fatal outcomes from the generated data for each run which can be
+used to check the model against predicted ideal probabilities.
+
+In addition, an ideal Poisson distribution can optionally be calculated and plotted
+for the given starting parameters. This is then plotted against observed probability
+of total fatal outcomes on a given run so see how well the observed probabilities
+compare with theoretical predictions.
+
+NOTE: If options are set to plot both graphs (cumulative fatal outcomes per run AND
+Poisson statistics), the first plot must be closed to display the second plot.
+
 
 Values can be varied as follows:
 - cutoffs for crits and fumbles on the d20 (must be between 1 and 20)
@@ -24,6 +34,7 @@ Values can be varied as follows:
 - the number of turns per run
 - the number of runs
 - whether to display every roll or only show a summary for each run
+- whether to display predicted vs observed Poisson statistics for probability of given number of fatal outcomes per run
 
 For the purposes of the simulation we simplified each round to
 consist of:
@@ -43,8 +54,13 @@ be careful not to run a large simulation or you may find the program
 becomes unresponsive)
 
 The interesting and counterintuitive aspect of the results from this simulation
-is that unlikely events (ie. fatal outcomes) start to creep into simulated dice
-rolls earlier and more regularly than our intuition might suggest
-based solely on the predicted probabilities. This means that care needs to be
-taken in tuning the fatal outcome cutoffs to arrive at a satisfactory balance of
-risk versus maintaining enjoyment for players.
+is that, depending on starting parameters, unlikely events (ie. fatal outcomes) start
+to creep into simulated dice rolls earlier and more regularly than our intuition might
+suggest. This magnitude of this effect depends greatly on the starting parameters
+(dice cutoffs, number of runs, number of rounds per run) and is driven by the underlying Poisson
+statistics at work. For small values of lambda (expected number of fatal outcomes per
+run) the Poisson distribution is narrow and located close to the origin. As lambda
+increases (expected number of fatal outcomes per run increases) the Poisson distribution
+becomes wider and higher numbers of fatal outcomes become much more likely. This means
+that care needs to be taken in tuning the fatal outcome cutoffs to arrive at a satisfactory
+balance of risk versus maintaining enjoyment for players.
