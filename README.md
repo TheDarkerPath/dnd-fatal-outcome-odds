@@ -6,7 +6,9 @@ showing theoretical predicted vs actual observed probabilities.
 
 Author: Geoff Moore
 
-![fatal_outcomes_20_runs_of_2000_rounds_98_and_99_cutoffs](https://user-images.githubusercontent.com/37242207/37359464-8eca82c4-26e5-11e8-9c91-e2bfe7be33bb.png)
+![figure_1](https://user-images.githubusercontent.com/37242207/37532779-e777ce0a-2937-11e8-98cc-6374b7e68ecd.png)
+
+![figure_2](https://user-images.githubusercontent.com/37242207/37532786-eb11f234-2937-11e8-8734-e655b3215973.png)
 
 Monte Carlo Simulation of fatal outcomes on DnD dice rolls. My current game
 involves homebrew rules with some fatal or character retiring outcomes
