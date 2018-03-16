@@ -6,9 +6,9 @@ showing theoretical predicted vs actual observed probabilities.
 
 Author: Geoff Moore
 
-![figure_1](https://user-images.githubusercontent.com/37242207/37532779-e777ce0a-2937-11e8-98cc-6374b7e68ecd.png)
+![cumulative](https://user-images.githubusercontent.com/37242207/37547879-2110662a-296c-11e8-8541-6d7b66ffa70a.png)
 
-![figure_2](https://user-images.githubusercontent.com/37242207/37532786-eb11f234-2937-11e8-8734-e655b3215973.png)
+![poisson](https://user-images.githubusercontent.com/37242207/37547884-2897ebf2-296c-11e8-90f8-7aa125593b93.png)
 
 Monte Carlo Simulation of fatal outcomes on DnD dice rolls. My current game
 involves homebrew rules with some fatal or character retiring outcomes
@@ -21,7 +21,7 @@ used to check the model against predicted ideal probabilities.
 
 In addition, an ideal Poisson distribution can optionally be calculated and plotted
 for the given starting parameters. This is then plotted against observed probability
-of total fatal outcomes on a given run so see how well the observed probabilities
+of total fatal outcomes on a given run to see how well the observed probabilities
 compare with theoretical predictions.
 
 NOTE: If options are set to plot both graphs (cumulative fatal outcomes per run AND

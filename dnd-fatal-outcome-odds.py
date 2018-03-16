@@ -309,7 +309,7 @@ if plot_poisson_stats:
         str(number_of_rounds) + ' rounds & ' + str(number_of_players) + ' player(s)\nfatal fumble d100 >= ' + str(d100_fatal_fumble_cutoff) + ' (ideal odds/round ' +
         str(round (predicted_chance_fatal_fumble, 4)) + ') | fatal crit d100 >= ' + str(d100_fatal_crit_cutoff) +
         ' (ideal odds/round ' + str(round (predicted_chance_fatal_crit, 4)) + ') | total ideal fatal odds/round ' +
-        str(round ((predicted_total_chance_fatal_outcome), 4)) + '\nObserved probability per run in red, predicted probability per run in green (expected number per run $\lambda$)=%i' % predicted_lambda_run)
+        str(round ((predicted_total_chance_fatal_outcome), 4)) + '\nObserved probability per run in red, predicted probability per run in green | expected number per run $\lambda$=%i' % predicted_lambda_run)
     plt.xlabel('Number of fatal outcomes in given run')
     plt.ylabel('Probability of number of fatal outcomes in given run')
     plt.legend(handles=[predicted_plot_label, observed_plot_label])
