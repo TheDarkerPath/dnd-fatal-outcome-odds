@@ -19,11 +19,6 @@ cumulative occurrence of fatal outcomes over time for each run. It also calculat
 probabilities of fatal outcomes from the generated data for each run which can be
 used to check the model against predicted ideal probabilities.
 
-In addition, an ideal Poisson distribution can optionally be calculated and plotted
-for the given starting parameters. This is then plotted against observed probability
-of total fatal outcomes on a given run to see how well the observed probabilities
-compare with theoretical predictions.
-
 In the cumulative fatal outcomes plot, runs are plotted as different colour lines
 and superimposed on the same axes for easy comparison. Verticals in the plot
 represent fatal outcomes for player characters. The text console output shows
@@ -31,6 +26,11 @@ summary stats for each run by default and but full dice rolls can also be
 displayed. (CAUTION: this is turned off by default to minimise execution time.
 If changing this setting be careful not to run a large simulation or you may
 find the program becomes unresponsive)
+
+In addition, an ideal Poisson distribution can optionally be calculated and plotted
+for the given starting parameters. This is then plotted against observed probability
+of a given total fatal outcome across multiple runs to see how well the observed
+probabilities compare with theoretical predictions.
 
 NOTE: If options are set to plot both graphs (cumulative fatal outcomes per run AND
 Poisson statistics), the first plot must be closed to display the second plot.
@@ -40,12 +40,13 @@ Starting parameters can be varied as follows:
 - fatal outcome cutoffs on the d100 (can be > 100 which means no fatal
     outcomes for that type of roll)
 - the number of players
-- the number of turns per run
-- the number of runs
+- the number of turns per run (a turn represents the DM and all players attacking once)
+- the number of runs (number of iterations of the simulation)
 - whether to display every roll or only show a summary for each run
-- whether to display predicted vs observed Poisson statistics for probability of given number of fatal outcomes per run
+- whether to display predicted vs observed Poisson statistics for probability of given
+    number of fatal outcomes per run
 
-This model is a highly simplified version of combat. It does not attempt
+This model uses a highly simplified version of combat. It does not attempt
 to model creatures with multi-attack or similar skills. It also does not
 take account of spells which would play a major role in real combat. For the
 purposes of the simulation each round consists of:
