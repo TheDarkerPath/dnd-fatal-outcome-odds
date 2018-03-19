@@ -10,14 +10,15 @@ Author: Geoff Moore
 
 ![poisson](https://user-images.githubusercontent.com/37242207/37547884-2897ebf2-296c-11e8-90f8-7aa125593b93.png)
 
-Monte Carlo Simulation of fatal outcomes on DnD dice rolls. My current game
-involves homebrew rules with some fatal or character retiring outcomes
-for fumbles and crits (we use the blanket term "fatal outcomes" in the simulation
-but we also mean very serious or character-retiring outcomes). This program
-simulates this scenario using a Monte Carlo approach and can optionally plot the
-cumulative occurrence of fatal outcomes over time for each run. It also calculates
-probabilities of fatal outcomes from the generated data for each run which can be
-used to check the model against predicted ideal probabilities.
+My current DnD game involves homebrew rules with some fatal or character retiring
+outcomes for fumbles and crits (we use the blanket term "fatal outcomes" in
+the simulation but we also mean very serious or character-retiring outcomes). On
+a fumble or crit, a d100 is rolled and the result checked against a fumble or crit
+table which specifies the outcome. This program simulates this scenario using a
+Monte Carlo approach and can optionally plot the cumulative occurrence of
+fatal outcomes over time for each run. It also calculates probabilities of fatal
+outcomes from the generated data for each run which can be used to check the
+model against predicted ideal probabilities.
 
 In the cumulative fatal outcomes plot, runs are plotted as different colour lines
 and superimposed on the same axes for easy comparison. Verticals in the plot
