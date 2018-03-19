@@ -24,11 +24,18 @@ for the given starting parameters. This is then plotted against observed probabi
 of total fatal outcomes on a given run to see how well the observed probabilities
 compare with theoretical predictions.
 
+In the cumulative fatal outcomes plot, runs are plotted as different colour lines
+and superimposed on the same axes for easy comparison. Verticals in the plot
+represent fatal outcomes for player characters. The text console output shows
+summary stats for each run by default and but full dice rolls can also be
+displayed. (CAUTION: this is turned off by default to minimise execution time.
+If changing this setting be careful not to run a large simulation or you may
+find the program becomes unresponsive)
+
 NOTE: If options are set to plot both graphs (cumulative fatal outcomes per run AND
 Poisson statistics), the first plot must be closed to display the second plot.
 
-
-Values can be varied as follows:
+Starting parameters can be varied as follows:
 - cutoffs for crits and fumbles on the d20 (must be between 1 and 20)
 - fatal outcome cutoffs on the d100 (can be > 100 which means no fatal
     outcomes for that type of roll)
@@ -38,22 +45,16 @@ Values can be varied as follows:
 - whether to display every roll or only show a summary for each run
 - whether to display predicted vs observed Poisson statistics for probability of given number of fatal outcomes per run
 
-For the purposes of the simulation we simplified each round to
-consist of:
+This model is a highly simplified version of combat. It does not attempt
+to model creatures with multi-attack or similar skills. It also does not
+take account of spells which would play a major role in real combat. For the
+purposes of the simulation each round consists of:
 - each player rolling one d20 to attack a monster. We
   track when a player fumbles their attack (ie. <= d20_fumble_cutoff)
   AND rolls a fatal outcome on the d100 (ie. >= d100_fatal_fumble_cutoff)
 - the DM rolling one d20 to attack a player (we track when the DM gets a
   crit (ie. >= d20_crit_cutoff) AND the player rolls a fatal
   outcome on the d100 (ie. >= d100_fatal_crit_cutoff)
-
-Runs are plotted as different colour lines and superimposed on the same
-axes for easy comparison. Verticals in the plot represent fatal outcomes
-for player characters. The text console output shows summary stats for each run
-by default and but full dice rolls can also be displayed. (CAUTION: this is
-turned off by default to minimise execution time. If changing this setting
-be careful not to run a large simulation or you may find the program
-becomes unresponsive)
 
 The interesting and counterintuitive aspect of the results from this simulation
 is that, depending on starting parameters, unlikely events (ie. fatal outcomes) start
