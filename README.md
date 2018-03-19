@@ -1,8 +1,8 @@
 # dnd-fatal-outcome-odds
 
-Monte Carlo Simulation to plot fatal outcomes over time on fumble and crit
-homebrew rules in DnD. Poisson statistics can also be calculated and plotted
-showing theoretical predicted vs actual observed probabilities.
+Monte Carlo Simulation to statistically analyse and plot fatal outcomes over
+time on fumble and crit homebrew rules in DnD. Poisson statistics are calculated
+and plotted showing theoretical predicted vs actual observed probabilities.
 
 Author: Geoff Moore
 
