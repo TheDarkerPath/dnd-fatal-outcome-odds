@@ -134,7 +134,7 @@ for run_loop_counter in range(0,number_of_runs):
 
             # If fumble, enter d20 fumble loop
             if D20result <= d20_fumble_cutoff:
-                d20_fumble_counter += 1 # increment the d20_fumble_cutoff counter
+                d20_fumble_counter += 1 # increment the d20 fumble counter
                 D100result = rollD100()
                 if output_each_roll:
                     print('-------------------d20 Fumble!')
@@ -142,7 +142,7 @@ for run_loop_counter in range(0,number_of_runs):
 
                 # ... and enter the D100 check loop
                 if D100result >= d100_fatal_fumble_cutoff:
-                    d100_fumble_fatal_outcome +=1 # increment the d100_fumble_fatal_outcome counter
+                    d100_fumble_fatal_outcome +=1 # increment the d100 fumble fatal outcome counter
                     poisson_run_fatal_outcomes_counter +=1 # increment poisson run fatal outcomes counter
                     if output_each_roll:
                         print('-----------------------------------------FATAL d100 FUMBLE!------------------')
@@ -158,7 +158,7 @@ for run_loop_counter in range(0,number_of_runs):
             print('   DM attack  -> ', D20result)
         # If crit, enter d20 crit loop
         if D20result >= d20_crit_cutoff:
-            d20_crit_counter += 1 # increment the d20_crit_cutoff counter
+            d20_crit_counter += 1 # increment the d20 crit counter
             D100result = rollD100()
             if output_each_roll:
                 print('-------------------d20 Crit!')
@@ -166,7 +166,7 @@ for run_loop_counter in range(0,number_of_runs):
 
             # ... and enter the D100 check loop
             if D100result >= d100_fatal_crit_cutoff:
-                d100_crit_fatal_outcome +=1 # increment the d100_crit_fatal_outcome counter
+                d100_crit_fatal_outcome +=1 # increment the d100 crit fatal outcome counter
                 poisson_run_fatal_outcomes_counter +=1 # increment poisson run fatal outcomes counter
                 if output_each_roll:
                     print('---------------------------------------------FATAL d100 CRIT!-------------------')
