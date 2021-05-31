@@ -19,7 +19,7 @@ import scipy.stats
 import matplotlib
 import matplotlib.pyplot as plt
 
-# Code to allow graceful termintation
+# Code to allow graceful termination
 def signal_handler(signal, frame):
     print("\nprogram exiting gracefully")
     sys.exit(0)
